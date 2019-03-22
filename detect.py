@@ -872,7 +872,7 @@ def process(lp_model,char_model,folder_path, logger, show_result=False,log_path=
                     chars['code'] = 404
                     chars['message'] = "no lp in the image"
                     log+="no lp been detected"
-                    cv2.imwrite(os.path.join(ROOT_DIR, 'api/imgs_logs/'+ image_name + "_" + "404" + "" ), image_read)
+                    cv2.imwrite(os.path.join(ROOT_DIR, 'imgs_logs/'+ image_name + "_" + "404" + ".jpg" ), image_read)
                     print("no lp")
                 # elif lp.shape[0]<20 or lp.shape[1]<10:
                 #     chars[image_name]=" resolution too low"
@@ -892,21 +892,21 @@ def process(lp_model,char_model,folder_path, logger, show_result=False,log_path=
                                 chars['licencePlate'] = ""
                                 chars['code'] = 501
                                 chars['message'] = "bad angel or bad clarity"
-                                cv2.imwrite(os.path.join(ROOT_DIR, 'api/imgs_logs/'+ image_name + "_" + "501" + "" ), image_read)
+                                cv2.imwrite(os.path.join(ROOT_DIR, 'imgs_logs/'+ image_name + "_" + "501" + ".jpg" ), image_read)
                             elif choice == 1:
                                 logger.info('code=506, message=bad resolution, image: {} an number {}'.format(image_name, char))
                                 chars['img_name'] = image_name
                                 chars['licencePlate'] = ""
                                 chars['code'] = 506
                                 chars['message'] = "bad resolution"
-                                cv2.imwrite(os.path.join(ROOT_DIR, 'api/imgs_logs/'+ image_name + "_" + "506" + "" ), image_read)
+                                cv2.imwrite(os.path.join(ROOT_DIR, 'imgs_logs/'+ image_name + "_" + "506" + ".jpg" ), image_read)
                             elif choice == 2:
                                 logger.info('code=506, message=distance is too far, image: {} an number {}'.format(image_name, char))
                                 chars['img_name'] = image_name
                                 chars['licencePlate'] = ""
                                 chars['code'] = 507
                                 chars['message'] = "distance is too far"
-                                cv2.imwrite(os.path.join(ROOT_DIR, 'api/imgs_logs/'+ image_name + "_" + "507" + "" ), image_read)
+                                cv2.imwrite(os.path.join(ROOT_DIR, 'imgs_logs/'+ image_name + "_" + "507" + ".jpg" ), image_read)
                         else:
                             print("plate_contend................",char)
                             print("average_char_score: ",average_char_score,"average_plate_sc: ",sc)
@@ -928,7 +928,7 @@ def process(lp_model,char_model,folder_path, logger, show_result=False,log_path=
                     chars['licencePlate'] = ""
                     chars['code'] = 500
                     chars['message'] = "bad angel or bad clarity"
-                    cv2.imwrite(os.path.join(ROOT_DIR, 'api/imgs_logs/'+ image_name + "_" + "500" + "" ), image_read)
+                    cv2.imwrite(os.path.join(ROOT_DIR, 'imgs_logs/'+ image_name + "_" + "500" + ".jpg" ), image_read)
 
                 elif char=="not valid":
                     logger.info('code=201, message=result is not valid, image: ' + image_name)
@@ -937,14 +937,14 @@ def process(lp_model,char_model,folder_path, logger, show_result=False,log_path=
                     chars['licencePlate'] = ""
                     chars['code'] = 201
                     chars['message'] = "result is not valid"
-                    cv2.imwrite(os.path.join(ROOT_DIR, 'api/imgs_logs/'+ image_name + "_" + "201" + "" ), image_read)
+                    cv2.imwrite(os.path.join(ROOT_DIR, 'imgs_logs/'+ image_name + "_" + "201" + ".jpg" ), image_read)
                 else:
                     logger.info('code=200, message=success, image: {} , number: {}'.format(image_name, char))
                     chars['img_name'] = image_name
                     chars['licencePlate'] = char
                     chars['code'] = 200
                     chars['message'] = "success"
-                    cv2.imwrite(os.path.join(ROOT_DIR, 'api/imgs_logs/'+ image_name + "_" + "200" + "_" + char ), image_read)
+                    cv2.imwrite(os.path.join(ROOT_DIR, 'imgs_logs/'+ image_name + "_" + "200" + "_" + char + ".jpg"), image_read)
 
 
             if best_one[2]!=-1:
@@ -955,7 +955,7 @@ def process(lp_model,char_model,folder_path, logger, show_result=False,log_path=
                     chars['licencePlate'] =  ""
                     chars['code'] = 201
                     chars['message'] = "result is not valid"
-                    cv2.imwrite(os.path.join(ROOT_DIR, 'api/imgs_logs/'+ image_name + "_" + "201" + "" ), image_read)
+                    cv2.imwrite(os.path.join(ROOT_DIR, 'imgs_logs/'+ image_name + "_" + "201" + ".jpg" ), image_read)
                     
                 else:
                     logger.info('code=200, message=success, image: {} , number: {}'.format(image_name, best_one[0]))
@@ -963,7 +963,7 @@ def process(lp_model,char_model,folder_path, logger, show_result=False,log_path=
                     chars['licencePlate'] =  best_one[0]
                     chars['code'] = 200
                     chars['message'] = "success"
-                    cv2.imwrite(os.path.join(ROOT_DIR, 'api/imgs_logs/'+ image_name + "_" + "200" + "_" + char ), image_read)
+                    cv2.imwrite(os.path.join(ROOT_DIR, 'imgs_logs/'+ image_name + "_" + "200" + "_" + char + ".jpg" ), image_read)
             
 
         else:
@@ -972,7 +972,7 @@ def process(lp_model,char_model,folder_path, logger, show_result=False,log_path=
             chars['licencePlate'] = ""
             chars['code'] = 503
             chars['message'] = "wrong format"
-            cv2.imwrite(os.path.join(ROOT_DIR, 'api/imgs_logs/'+ image_name + "_" + "503" + "" ), image_read)
+            cv2.imwrite(os.path.join(ROOT_DIR, 'imgs_logs/'+ image_name + "_" + "503" + ".jpg" ), image_read)
 
         results.append(chars)
 
