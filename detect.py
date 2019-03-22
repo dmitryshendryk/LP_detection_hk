@@ -935,7 +935,7 @@ def process(lp_model,char_model,folder_path, logger, show_result=False,log_path=
                     chars['message'] = "bad angel or bad clarity"
                     cv2.imwrite(os.path.join(ROOT_DIR, 'imgs_logs/'+ image_name.split(".")[0] + "_" + "500" + ".jpg" ), image_read)
 
-                elif char=="not_valid":
+                elif char=="not_valid" or len(char) < 4 :
                     logger.info('code=201, message=result is not_valid, image: ' + image_name)
                     char[image_name]= "result is not_valid"
                     chars['img_name'] = image_name
@@ -954,7 +954,7 @@ def process(lp_model,char_model,folder_path, logger, show_result=False,log_path=
 
             if best_one[2]!=-1:
 
-                if best_one[0] == 'not_valid' or best_one[0] == '':
+                if best_one[0] == 'not_valid' or best_one[0] == '' or len(best_one[0]) < 4 :
                     logger.info('code=201, message=result is not_valid, image: {} , number: {}'.format(image_name, best_one[0]))
                     chars['img_name'] = image_name
                     chars['licencePlate'] =  ""
