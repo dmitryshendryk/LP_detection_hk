@@ -872,7 +872,7 @@ def process(lp_model,char_model,folder_path, logger, show_result=False,log_path=
                     chars['code'] = 404
                     chars['message'] = "no lp in the image"
                     log+="no lp been detected"
-                    cv2.imwrite(os.path.join(ROOT_DIR, 'imgs_logs/'+ image_name + "_" + "404" + ".jpg" ), image_read)
+                    cv2.imwrite(os.path.join(ROOT_DIR, 'imgs_logs/'+ image_read.split(".")[0] + "_" + "404" + ".jpg" ), image_read)
                     print("no lp")
                 # elif lp.shape[0]<20 or lp.shape[1]<10:
                 #     chars[image_name]=" resolution too low"
@@ -881,7 +881,7 @@ def process(lp_model,char_model,folder_path, logger, show_result=False,log_path=
                     for (lp,sc,box) in zip(lps,plate_score,all_boxs):
                         if lp.shape[0]<10 or lp.shape[1]<5:
                             continue
-                        cv2.imwrite(os.path.join(ROOT_DIR, 'imgs_logs/'+ image_name.split(".")[0] + "_" + "found_lpr" + ".jpg" ), image_read)
+                        cv2.imwrite(os.path.join(ROOT_DIR, 'imgs_logs/'+ image_read.split(".")[0] + "_" + "found_lpr" + ".jpg" ), image_read)
                         image_read,char,average_char_score=detect(char_model,image_path=image_dir,Min_score=0.5,type="detect_char",img=lp)
                         print("FIRST: {}".format(char))
                         if not len(char):
@@ -921,7 +921,7 @@ def process(lp_model,char_model,folder_path, logger, show_result=False,log_path=
 
 
             else:
-                cv2.imwrite(os.path.join(ROOT_DIR, 'imgs_logs/'+ image_name.split(".")[0] + "_" + "found_lpr" + ".jpg" ), image_read)
+                cv2.imwrite(os.path.join(ROOT_DIR, 'imgs_logs/'+ image_read + "_" + "found_lpr" + ".jpg" ), image_read)
                 image_read, char,average_char_score=detect(char_model,image_path=image_dir,type="detect_char")
                 print("SECOND: {}".format(char))
                 if not char:
