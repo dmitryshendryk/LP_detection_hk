@@ -718,13 +718,16 @@ def get_char_result(image, boxes, masks, class_ids, class_names,
 
 def detect(model, image_path, Min_score,type="detect_lp",img=None):
 
+    image_origin = ""
     if np.all(img)==None:
         image=cv2.imread(image_path)
+        image_origin = image
         # if image.shape[0]<200 or image.shape[1]<200:
         #     s = (2 * image.shape[1], 2 * image.shape[0])
         #     image = cv2.resize(src=image, dsize=s, interpolation=cv2.INTER_LANCZOS4)
     else:
         image=cv2.cvtColor(img,cv2.COLOR_RGB2GRAY)
+        image_origin = image
     # if type=="detect_chars":
     #     s = (2 * image.shape[1], 2 * image.shape[0])
     #     image = cv2.resize(src=image, dsize=s, interpolation=cv2.INTER_LANCZOS4)
@@ -774,7 +777,7 @@ def detect(model, image_path, Min_score,type="detect_lp",img=None):
 
                 # cv2.imshow(" ",output)
                 # cv2.waitKey(0)
-        return  image,all_images,all_scores,all_boxs
+        return  image_origin,all_images,all_scores,all_boxs
 
 
     else:
@@ -819,7 +822,7 @@ def detect(model, image_path, Min_score,type="detect_lp",img=None):
         result,score = get_char_result(image, r['rois'], r['masks'], r['class_ids'],
                                       class_names, r['scores'], show_bbox=True, score_threshold=Min_score,
                                       show_mask=False)
-        return  image,result,score
+        return  image_origin,result,score
 
 def load_model(lp_path,char_path):
     lp_model=0
