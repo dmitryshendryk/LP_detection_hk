@@ -2,7 +2,7 @@
 .vscode
 weights
 imgs
-./api/errors.log
-./api/info.log
+**/api/errors.log
+**/api/**.log
 mrcnn/__pycache__
 __pycache__
