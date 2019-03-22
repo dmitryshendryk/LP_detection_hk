@@ -711,7 +711,7 @@ def get_char_result(image, boxes, masks, class_ids, class_names,
         else:
             res=sec
     else :
-        res="not valid"
+        res="not_valid"
     return res,average_score
 
 
@@ -935,13 +935,13 @@ def process(lp_model,char_model,folder_path, logger, show_result=False,log_path=
                     chars['message'] = "bad angel or bad clarity"
                     cv2.imwrite(os.path.join(ROOT_DIR, 'imgs_logs/'+ image_name.split(".")[0] + "_" + "500" + ".jpg" ), image_read)
 
-                elif char=="not valid":
-                    logger.info('code=201, message=result is not valid, image: ' + image_name)
-                    char[image_name]= "result is not valid"
+                elif char=="not_valid":
+                    logger.info('code=201, message=result is not_valid, image: ' + image_name)
+                    char[image_name]= "result is not_valid"
                     chars['img_name'] = image_name
                     chars['licencePlate'] = ""
                     chars['code'] = 201
-                    chars['message'] = "result is not valid"
+                    chars['message'] = "result is not_valid"
                     cv2.imwrite(os.path.join(ROOT_DIR, 'imgs_logs/'+ image_name.split(".")[0] + "_" + "201" + ".jpg" ), image_read)
                 else:
                     logger.info('code=200, message=success, image: {} , number: {}'.format(image_name, char))
@@ -954,12 +954,12 @@ def process(lp_model,char_model,folder_path, logger, show_result=False,log_path=
 
             if best_one[2]!=-1:
 
-                if best_one[0] == 'not valid' or best_one[0] == '':
-                    logger.info('code=201, message=result is not valid, image: {} , number: {}'.format(image_name, best_one[0]))
+                if best_one[0] == 'not_valid' or best_one[0] == '':
+                    logger.info('code=201, message=result is not_valid, image: {} , number: {}'.format(image_name, best_one[0]))
                     chars['img_name'] = image_name
                     chars['licencePlate'] =  ""
                     chars['code'] = 201
-                    chars['message'] = "result is not valid"
+                    chars['message'] = "result is not_valid"
                     cv2.imwrite(os.path.join(ROOT_DIR, 'imgs_logs/'+ image_name.split(".")[0] + "_" + "201" + ".jpg" ), image_read)
                     
                 else:
@@ -968,7 +968,7 @@ def process(lp_model,char_model,folder_path, logger, show_result=False,log_path=
                     chars['licencePlate'] =  best_one[0]
                     chars['code'] = 200
                     chars['message'] = "success"
-                    cv2.imwrite(os.path.join(ROOT_DIR, 'imgs_logs/'+ image_name.split(".")[0] + "_" + "200" + "_" + char + ".jpg" ), image_read)
+                    cv2.imwrite(os.path.join(ROOT_DIR, 'imgs_logs/'+ image_name.split(".")[0] + "_" + "200" + "_" + best_one[0] + ".jpg" ), image_read)
             
 
         else:
