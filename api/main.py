@@ -11,6 +11,7 @@ from detect import *
 from api.config import ConfigGlobalAPI, ConfigSuzhouAPI, ConfigHKAPI
 from api.ftp_server import *
 from api.mqtt_client import *
+from api.stub_sftp import start_server
 import time 
 
 
@@ -104,34 +105,34 @@ if __name__ == "__main__":
     if args.env == 'hk':
         config = ConfigHKAPI()
     
-    server = SFTpServer((config.FTP_host, config.FTP_port),config)
-    try:
-        mq = MQTTClient(config)
-    except MqttDisconnectException as e:
-        logger.error("EXCEPTION RAISED: {}".format(e))
+    start_server('127.0.0.1', 60022, 'INFO')
+    # try:
+    #     mq = MQTTClient(config)
+    # except MqttDisconnectException as e:
+    #     logger.error("EXCEPTION RAISED: {}".format(e))
 
 
 
-    if args.command == 'download':
-        try:    
-            server.sftp_download(REMOTE_FOLDER_PATH, connection_close=True)
-        except KeyboardInterrupt:
-            server.sftp.close()
-            server.transport.close()
+    # if args.command == 'download':
+    #     try:    
+    #         server.sftp_download(REMOTE_FOLDER_PATH, connection_close=True)
+    #     except KeyboardInterrupt:
+    #         server.sftp.close()
+    #         server.transport.close()
         
-    if args.command == 'remove':
-        try:
-            server.sftp_remove(REMOTE_FOLDER_PATH, file_list=None, connection_close=True)
-        except KeyboardInterrupt:
-            server.sftp.close()
-            server.transport.close()
+    # if args.command == 'remove':
+    #     try:
+    #         server.sftp_remove(REMOTE_FOLDER_PATH, file_list=None, connection_close=True)
+    #     except KeyboardInterrupt:
+    #         server.sftp.close()
+    #         server.transport.close()
 
-    if args.command == 'cron':
-        try:
-            cron_job(sftp_server=server, mqtt_client=mq, logger=logger)
+    # if args.command == 'cron':
+    #     try:
+    #         cron_job(sftp_server=server, mqtt_client=mq, logger=logger)
 
-        except KeyboardInterrupt:
-            server.sftp.close()
-            server.transport.close()
+    #     except KeyboardInterrupt:
+    #         server.sftp.close()
+    #         server.transport.close()
 
 
