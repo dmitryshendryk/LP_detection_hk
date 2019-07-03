@@ -981,7 +981,22 @@ def process(lp_model,char_model,folder_path, logger, show_result=False,log_path=
 
         results.append(chars)
 
-    return results
+
+    results = [{'img_name': 'BZ_6266_2 (4th copy).jpg', 'licencePlate': 'PZ6266', 'code': 500, 'message': 'success'}, {'img_name': 'BZ_6266_2 (copy).jpg', 'licencePlate': 'PZ6266', 'code': 500, 'message': 'success'}, {'img_name': '964.jpg', 'licencePlate': '', 'code': 500, 'message': 'result is not_valid'}, {'img_name': '00_7555_hide.jpg', 'licencePlate': 'VU75551', 'code': 500, 'message': 'success'}, {'img_name': 'AD_759.jpg', 'licencePlate': 'A0759', 'code': 500, 'message': 'success'}, {'img_name': 'BM398.jpg', 'licencePlate': 'BN1398', 'code': 500, 'message': 'success'}, {'img_name': 'BZ_6266_2.jpg', 'licencePlate': 'PZ6266', 'code': 500, 'message': 'success'}, {'img_name': 'AU135.jpg', 'licencePlate': 'AU135', 'code': 500, 'message': 'success'}, {'img_name': 'BZ_6266_2 (3rd copy).jpg', 'licencePlate': 'PZ6266', 'code': 500, 'message': 'success'}, {'img_name': 'BZ_6266_2 (another copy).jpg', 'licencePlate': 'PZ6266', 'code': 500, 'message': 'success'}, {'img_name': 'test.jpg', 'licencePlate':'1111', 'code':500, 'message':'error'}]
+
+    results_200 = list(filter(lambda x: x['code']==200, results))
+    if len(results_200):
+        results_list = results
+        results = [k['licencePlate'] for k in results if k.get('licencePlate')]
+        results = max(set(results), key=results.count)
+        results_list = list(filter(lambda x: x['licencePlate'] == results, results_list))
+        # print(results_list)
+
+        if len(results_list) >= 1:
+            return results_list[0]
+
+    elif len(results) >= 1:
+        return results[0]
 
 
 if __name__=="__main__":

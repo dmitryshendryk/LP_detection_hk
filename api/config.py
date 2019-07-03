@@ -1,4 +1,4 @@
-class ConfigGlobalAPI(object):
+class ConfigHKAPI(object):
 
     FTP_host = "222.92.47.134"
 
@@ -12,10 +12,10 @@ class ConfigGlobalAPI(object):
 
     MQTT_keep_alive = 65535
 
-    MQTT_password = "eric"
-    MQTT_username = "eric"
+    MQTT_password = "simon"
+    MQTT_username = "simon"
 
-class ConfigHKAPI(object):
+class ConfigGlobalAPI(object):
     FTP_host = "192.168.1.17"
 
     FTP_port = 60022

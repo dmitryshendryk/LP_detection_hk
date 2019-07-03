@@ -12,6 +12,7 @@ from api.config import ConfigGlobalAPI, ConfigSuzhouAPI, ConfigHKAPI
 from api.ftp_server import *
 from api.mqtt_client import *
 import time 
+import shutil
 
 
 REMOTE_FOLDER_PATH='/klubms/resources/license'
@@ -44,41 +45,39 @@ def restart():
     os.execl(python, python, * sys.argv)
 
 
-def cron_job(sftp_server, mqtt_client, logger):
+def cron_job(mqtt_client, logger):
     while True:
-        try:
-            file_list = sftp_server.sftp_download(REMOTE_FOLDER_PATH)
-            print(file_list)
-            sftp_server.sftp_remove(REMOTE_FOLDER_PATH, file_list)
-        except Exception as e:
-            logger.error("SFTP exception : {}".format(e))
-            restart()
-            
-        imgs_path = os.path.join(ROOT_DIR,'imgs')
-        files_path = os.path.join(ROOT_DIR, 'imgs/*')
-        results=process(lp_model,char_model,imgs_path, logger)
-        files = glob.glob(files_path)
-        for f in files:
-            os.remove(f)
-        for item in results:
-            try:
 
-                temp = {
-                    "code": item['code'],
-                    "message": item['message'],
-                    "licencePlate": item['licencePlate'],
-                    "vehicleType": '',
-                    "vehicleColor":"color"}
-            except KeyError:
-                continue
-            try:
-                print("recognition/vehicle/res/" + item['img_name'].split('.')[0])
-                mqtt_client.publish("recognition/vehicle/res/" + item['img_name'].split('.')[0], temp)
-            except Exception as e:
-                logger.error("MQTT exception: {}".format(e))
-                restart()
-      
-        time.sleep(10)
+        folder_path = os.listdir(os.path.join(ROOT_DIR,'imgs'))
+        folder_path = list(filter(lambda x: len(x.split('.')) == 1, folder_path))
+        if folder_path:
+            for folder in folder_path:
+                imgs_path = os.path.join(ROOT_DIR + '/imgs', folder)
+                item=process(lp_model,char_model,imgs_path, logger)
+                try:
+                    shutil.rmtree(imgs_path)
+                except OSError as e:
+                    print("Error: %s - %s." %(e.filename, e.strerror))
+                try:
+
+                    temp = {
+                        "code": item['code'],
+                        "message": item['message'],
+                        "licencePlate": item['licencePlate'],
+                        "vehicleType": '',
+                        "keyImage": item['img_name'],
+                        "vehicleColor":"color"}
+                except KeyError:
+                    continue
+                try:
+                    print("recognition/vehicle/res/" + item['img_name'].split('.')[0])
+                    mqtt_client.publish("recognition/vehicle/res/" + item['img_name'].split('.')[0], temp)
+                except Exception as e:
+                    logger.error("MQTT exception: {}".format(e))
+                    restart()
+        else:
+            print("NO data to process")
+        time.sleep(5)
 
 if __name__ == "__main__":
     
@@ -104,7 +103,6 @@ if __name__ == "__main__":
     if args.env == 'hk':
         config = ConfigHKAPI()
     
-    server = SFTpServer((config.FTP_host, config.FTP_port),config)
     try:
         mq = MQTTClient(config)
     except MqttDisconnectException as e:
@@ -112,26 +110,12 @@ if __name__ == "__main__":
 
 
 
-    if args.command == 'download':
-        try:    
-            server.sftp_download(REMOTE_FOLDER_PATH, connection_close=True)
-        except KeyboardInterrupt:
-            server.sftp.close()
-            server.transport.close()
-        
-    if args.command == 'remove':
-        try:
-            server.sftp_remove(REMOTE_FOLDER_PATH, file_list=None, connection_close=True)
-        except KeyboardInterrupt:
-            server.sftp.close()
-            server.transport.close()
 
     if args.command == 'cron':
         try:
-            cron_job(sftp_server=server, mqtt_client=mq, logger=logger)
+            cron_job(mqtt_client=mq, logger=logger)
 
         except KeyboardInterrupt:
-            server.sftp.close()
-            server.transport.close()
+            print("Exception")
 
 
