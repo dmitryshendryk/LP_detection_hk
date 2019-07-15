@@ -48,11 +48,12 @@ def restart():
 def cron_job(mqtt_client, logger):
     while True:
 
-        folder_path = os.listdir(os.path.join(ROOT_DIR,'imgs'))
+        # folder_path = os.listdir(os.path.join(ROOT_DIR,'imgs'))
+        folder_path = os.listdir('/sfpt/lpr/upload')
         folder_path = list(filter(lambda x: len(x.split('.')) == 1, folder_path))
         if folder_path:
             for folder in folder_path:
-                imgs_path = os.path.join(ROOT_DIR + '/imgs', folder)
+                imgs_path = os.path.join("/sfpt/lpr/upload", folder)
                 item=process(lp_model,char_model,imgs_path, logger)
                 try:
                     shutil.rmtree(imgs_path)
@@ -70,8 +71,8 @@ def cron_job(mqtt_client, logger):
                 except KeyError:
                     continue
                 try:
-                    print("recognition/vehicle/res/" + item['img_name'].split('.')[0])
-                    mqtt_client.publish("recognition/vehicle/res/" + item['img_name'].split('.')[0], temp)
+                    print("v1/recognition/vehicle/res/" + item['img_name'].split('.')[0])
+                    mqtt_client.publish("v1/recognition/vehicle/res/" + item['img_name'].split('.')[0], temp)
                 except Exception as e:
                     logger.error("MQTT exception: {}".format(e))
                     restart()
