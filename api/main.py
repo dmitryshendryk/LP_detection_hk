@@ -62,6 +62,7 @@ def cron_job(mqtt_client, logger, sftp):
         # folder_path = os.listdir(os.path.join(ROOT_DIR,'imgs'))
         folder_path = os.listdir('/sftp/lpr/upload')
         folder_path = list(filter(lambda x: len(x.split('.')) == 1, folder_path))
+        imgs_path = ''
         if folder_path:
             for folder in folder_path:
                 imgs_path = os.path.join("/sftp/lpr/upload", folder)
