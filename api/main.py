@@ -15,7 +15,7 @@ import time
 import shutil
 
 
-REMOTE_FOLDER_PATH='/klubms/resources/license'
+REMOTE_FOLDER_PATH='/upload'
 
 lp_path=os.path.join(ROOT_DIR,"weights/this_is_the_best_lp_weight_1203.h5") # "/home/ccs1/Documents/Projects/LP_detect/weights/this_is_the_best_lp_weight_1203.h5" #535
 char_path =os.path.join(ROOT_DIR,"weights/mask_rcnn_plc_0535.h5")# "/home/ccs1/Documents/Projects/LP_detect_dep/weights/mask_rcnn_plc_0535.h5"
@@ -69,8 +69,7 @@ def cron_job(mqtt_client, logger, sftp):
                 print("PROCESS FOLDER ", imgs_path)
                 item=process(lp_model,char_model,imgs_path, logger)
                 try:
-                    # shutil.rmtree(imgs_path, onerror=onerror)
-                    sftp.sftp_remove(imgs_path, os.listdir(imgs_path))
+                    sftp.sftp_remove(REMOTE_FOLDER_PATH, folder)
                     print("DELETED FOLDER ", imgs_path)
                 except OSError as e:
                     print("Error: %s - %s." %(e.filename, e.strerror))
