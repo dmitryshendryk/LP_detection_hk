@@ -84,23 +84,24 @@ class SFTpServer(paramiko.Transport):
             self.transport.close()
         
     
-    def sftp_remove(self, remotepath, file_list=None, connection_close=False):
-        if file_list is not None:
-            self.logger.info(str(len(file_list)) + " images will be deleted")
-            # print(str(len(file_list)) + " images will be deleted")
-            for file in file_list:
-                self.sftp.remove(remotepath + "/" + file)
-        else:
-            for path,files  in self.sftp_walk(remotepath):
-                self.logger.info(str(len(files)) + " images will be deleted")
-                # print(str(len(files)) + " images will be deleted")
-                for file in files:
-                    self.sftp.remove(remotepath + "/"+ file)  
+    def sftp_remove(self, remotepath, file_list=None):
+        # if file_list is not None:
+        self.logger.info(str(len(file_list)) + " images will be deleted")
+        # print(str(len(file_list)) + " images will be deleted")
+        for file in file_list:
+            self.sftp.remove(remotepath + "/" + file)
+        self.sftp.rmdir(remotepath)
+        # else:
+        #     for path,files  in self.sftp_walk(remotepath):
+        #         self.logger.info(str(len(files)) + " images will be deleted")
+        #         # print(str(len(files)) + " images will be deleted")
+        #         for file in files:
+        #             self.sftp.remove(remotepath + "/"+ file)  
         
 
-        if (connection_close):
-            self.sftp.close()
-            self.transport.close()
+        # if (connection_close):
+        #     self.sftp.close()
+        #     self.transport.close()
         # print('end')
 
 

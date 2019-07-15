@@ -56,6 +56,8 @@ def onerror(func, path, exc_info):
 
 
 def cron_job(mqtt_client, logger):
+    sftp = SFTpServer()
+    print("Started SFT client")
     while True:
 
         # folder_path = os.listdir(os.path.join(ROOT_DIR,'imgs'))
@@ -67,7 +69,8 @@ def cron_job(mqtt_client, logger):
                 print("PROCESS FOLDER ", imgs_path)
                 item=process(lp_model,char_model,imgs_path, logger)
                 try:
-                    shutil.rmtree(imgs_path, onerror=onerror)
+                    # shutil.rmtree(imgs_path, onerror=onerror)
+                    sftp.sftp_remove(imgs_path, os.listdir(imgs_path))
                     print("DELETED FOLDER ", imgs_path)
                 except OSError as e:
                     print("Error: %s - %s." %(e.filename, e.strerror))

@@ -1,11 +1,11 @@
 class ConfigHKAPI(object):
 
-    FTP_host = "222.92.47.134"
+    FTP_host = "localhost"
 
     FTP_port = 60022
 
-    FTP_password = "sftp"
-    FTP_username = "sftp"
+    FTP_password = "995511"
+    FTP_username = "lpr"
 
     MQTT_broker_address = "10.10.12.117"
     MQTT_port = 1883
