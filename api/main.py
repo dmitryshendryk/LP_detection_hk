@@ -54,9 +54,11 @@ def cron_job(mqtt_client, logger):
         if folder_path:
             for folder in folder_path:
                 imgs_path = os.path.join("/sftp/lpr/upload", folder)
+                print("PROCESS FOLDER ", imgs_path)
                 item=process(lp_model,char_model,imgs_path, logger)
                 try:
                     shutil.rmtree(imgs_path)
+                    print("DELETED FOLDER ", imgs_path)
                 except OSError as e:
                     print("Error: %s - %s." %(e.filename, e.strerror))
                 try:
