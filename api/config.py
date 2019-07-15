@@ -7,7 +7,7 @@ class ConfigHKAPI(object):
     FTP_password = "sftp"
     FTP_username = "sftp"
 
-    MQTT_broker_address = "222.92.47.134"
+    MQTT_broker_address = "klubms.siemens.com.hk"
     MQTT_port = 1883
 
     MQTT_keep_alive = 65535

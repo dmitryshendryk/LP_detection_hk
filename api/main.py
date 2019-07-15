@@ -44,6 +44,16 @@ def restart():
     python = sys.executable
     os.execl(python, python, * sys.argv)
 
+def onerror(func, path, exc_info):
+   
+    import stat
+    if not os.access(path, os.W_OK):
+        # Is the error an access error ?
+        os.chmod(path, stat.S_IWUSR)
+        func(path)
+    else:
+        raise
+
 
 def cron_job(mqtt_client, logger):
     while True:
@@ -57,7 +67,7 @@ def cron_job(mqtt_client, logger):
                 print("PROCESS FOLDER ", imgs_path)
                 item=process(lp_model,char_model,imgs_path, logger)
                 try:
-                    shutil.rmtree(imgs_path)
+                    shutil.rmtree(imgs_path, onerror=onerror)
                     print("DELETED FOLDER ", imgs_path)
                 except OSError as e:
                     print("Error: %s - %s." %(e.filename, e.strerror))
