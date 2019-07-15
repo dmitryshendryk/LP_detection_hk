@@ -49,11 +49,11 @@ def cron_job(mqtt_client, logger):
     while True:
 
         # folder_path = os.listdir(os.path.join(ROOT_DIR,'imgs'))
-        folder_path = os.listdir('/sfpt/lpr/upload')
+        folder_path = os.listdir('/sftp/lpr/upload')
         folder_path = list(filter(lambda x: len(x.split('.')) == 1, folder_path))
         if folder_path:
             for folder in folder_path:
-                imgs_path = os.path.join("/sfpt/lpr/upload", folder)
+                imgs_path = os.path.join("/sftp/lpr/upload", folder)
                 item=process(lp_model,char_model,imgs_path, logger)
                 try:
                     shutil.rmtree(imgs_path)
