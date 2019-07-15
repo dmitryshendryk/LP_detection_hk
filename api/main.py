@@ -55,8 +55,7 @@ def onerror(func, path, exc_info):
         raise
 
 
-def cron_job(mqtt_client, logger):
-    sftp = SFTpServer()
+def cron_job(mqtt_client, logger, sftp):
     print("Started SFT client")
     while True:
 
@@ -119,6 +118,7 @@ if __name__ == "__main__":
     if args.env == 'hk':
         config = ConfigHKAPI()
     
+    sftp = SFTpServer((config.FTP_host, config.FTP_port),config)
     try:
         mq = MQTTClient(config)
     except MqttDisconnectException as e:
@@ -129,7 +129,7 @@ if __name__ == "__main__":
 
     if args.command == 'cron':
         try:
-            cron_job(mqtt_client=mq, logger=logger)
+            cron_job(mqtt_client=mq, logger=logger, sftp=sftp)
 
         except KeyboardInterrupt:
             print("Exception")
