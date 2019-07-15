@@ -1,6 +1,6 @@
 class ConfigHKAPI(object):
 
-    FTP_host = "localhost"
+    FTP_host = "10.10.12.135"
 
     FTP_port = 60022
 
