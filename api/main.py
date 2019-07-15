@@ -119,6 +119,7 @@ if __name__ == "__main__":
         config = ConfigHKAPI()
     
     sftp = SFTpServer((config.FTP_host, config.FTP_port),config)
+    # sftp.sftp_remove(REMOTE_FOLDER_PATH, '5d2c1a46b83c1332ddd2064e')
     try:
         mq = MQTTClient(config)
     except MqttDisconnectException as e:
