@@ -85,8 +85,9 @@ def cron_job(mqtt_client, logger, sftp):
                 except KeyError:
                     continue
                 try:
-                    print("v1/recognition/vehicle/res/" + item['img_name'].split('.')[0])
-                    mqtt_client.publish("v1/recognition/vehicle/res/" + item['img_name'].split('.')[0], temp)
+                    # print("v1/recognition/vehicle/res/" + item['img_name'].split('.')[0])
+                    print("v1/recognition/vehicle/res/" + folder)
+                    mqtt_client.publish("v1/recognition/vehicle/res/" + folder, temp)
                 except Exception as e:
                     logger.error("MQTT exception: {}".format(e))
                     restart()
