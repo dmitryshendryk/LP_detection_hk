@@ -985,7 +985,7 @@ def process(lp_model,char_model,folder_path, logger, show_result=False,log_path=
         results.append(chars)
 
 
-    print(results)
+    results = [t for t in results if t]
     results_200 = list(filter(lambda x: x['code']==200, results))
     if len(results_200):
         results_list = results
