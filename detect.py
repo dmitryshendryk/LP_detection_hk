@@ -732,12 +732,18 @@ def detect(model, image_path, Min_score,type="detect_lp",img=None):
     #     s = (2 * image.shape[1], 2 * image.shape[0])
     #     image = cv2.resize(src=image, dsize=s, interpolation=cv2.INTER_LANCZOS4)
     print('line 734')
-    if image is None:
+    if image is None and type!="detect_lp":
         return [],[],[]
 
+    if image is None and type=="detect_lp":
+        return [],[],[], []
+
     print('line 738')
-    if len(image) == 0:
+    if len(image) == 0 and type!="detect_lp":
         return [],[],[]
+    
+    if len(image) == 0 and type=="detect_lp":
+        return [],[],[],[]
 
 
     if len(image.shape)<3:
