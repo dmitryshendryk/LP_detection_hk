@@ -731,10 +731,11 @@ def detect(model, image_path, Min_score,type="detect_lp",img=None):
     # if type=="detect_chars":
     #     s = (2 * image.shape[1], 2 * image.shape[0])
     #     image = cv2.resize(src=image, dsize=s, interpolation=cv2.INTER_LANCZOS4)
-   
+    print('line 734')
     if image is None:
         return [],[],[]
 
+    print('line 738')
     if len(image) == 0:
         return [],[],[]
 
@@ -777,6 +778,7 @@ def detect(model, image_path, Min_score,type="detect_lp",img=None):
 
                 # cv2.imshow(" ",output)
                 # cv2.waitKey(0)
+        print('line 781')
         return  image_origin,all_images,all_scores,all_boxs
 
 
@@ -822,6 +824,7 @@ def detect(model, image_path, Min_score,type="detect_lp",img=None):
         result,score = get_char_result(image, r['rois'], r['masks'], r['class_ids'],
                                       class_names, r['scores'], show_bbox=True, score_threshold=Min_score,
                                       show_mask=False)
+        print('line 827')
         return  image_origin,result,score
 
 def load_model(lp_path,char_path):
